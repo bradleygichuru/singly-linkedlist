@@ -2,5 +2,6 @@
 A single linked list implementation in Rust
 
 ## Completed
-- [ ] Insertion from beginning  
-- [x] insertion from the end
+- [x] Insertion from beginning  
+- [ ] insertion from the end
+- [x] traversal

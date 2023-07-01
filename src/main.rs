@@ -37,7 +37,7 @@ impl<T: std::cmp::PartialEq + std::fmt::Debug> SinglyLinkedList<T> {
             true
         }
     }
-    fn insert_end(&mut self, data: T) -> bool {
+    fn insert_end(&mut self, data: T) -> bool { //TODO test
         //insert a node at the end of the list
         // let current_node = &self.head;
         if self.head.is_some() {
@@ -65,7 +65,7 @@ impl<T: std::cmp::PartialEq + std::fmt::Debug> SinglyLinkedList<T> {
             false
         }
     }
-    fn delete_node(&mut self, data: T) {
+    fn delete_node(&mut self, data: T) {//TODO test
         if self.head.is_some() {
             let mut current_node = Box::new(self.head);
             let mut prev_node = Box::new(self.head);
