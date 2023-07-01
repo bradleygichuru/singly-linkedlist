@@ -5,3 +5,5 @@ A single linked list implementation in Rust
 - [x] Insertion from beginning  
 - [ ] insertion from the end
 - [x] traversal
+- [ ] deletion
+- [ ] search 
