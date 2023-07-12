@@ -106,7 +106,60 @@ impl<T: std::cmp::PartialEq + std::fmt::Debug> SinglyLinkedList<T> {
             println!("Linked list has no head");
         }
     }
-    // fn search(data: T) -> {}
+    fn search(&mut self,data: T) -> Option<i32> {
+        
+        if self.head.is_some() {
+            let mut current_node = Box::new(self.head);
+            let mut searched_items_count = 0;//we start counting from 0
+            let mut current_node_ptr: &mut Option<NonNull<Node<T>>> =
+                Box::leak(current_node).into();
+            unsafe {
+                /* while current_node_ptr.unwrap().as_mut().next.is_some() {
+                    println!("data : {:?}",current_node_ptr.unwrap().as_mut().data);
+                    current_node = Box::new(current_node_ptr.unwrap().as_mut().next);
+
+                    current_node_ptr = Box::leak(current_node).into();
+                } */
+                loop {
+                    /* println!(
+                        "data : {:?} ,next: {:?}",
+                        current_node_ptr.unwrap().as_mut().data,
+                        current_node_ptr
+                            .unwrap()
+                            .as_mut()
+                            .next
+                            .unwrap()
+                            .as_mut()
+                            .data
+                    ); */
+                    if current_node_ptr.unwrap().as_mut().data == data{
+                        println!("item found at position {:?}",searched_items_count);
+                        return Some(searched_items_count);
+                        
+                    }
+
+                    if current_node_ptr.unwrap().as_mut().next.is_none() {
+                        //println!("data: {:?}", current_node_ptr.unwrap().as_mut().data);
+                        println!("item not found");
+                        return None;
+                    }
+
+                    if current_node_ptr.unwrap().as_mut().next.is_some() {
+                        //println!("data: {:?}", current_node_ptr.unwrap().as_mut().data);
+
+                        current_node = Box::new(current_node_ptr.unwrap().as_mut().next);
+
+                        current_node_ptr = Box::leak(current_node).into();
+                        searched_items_count = searched_items_count +1;
+                    }
+                }
+            }
+        } else {
+            println!("Linked list has no head");
+            return None;
+            
+        }
+    }
     fn traverse(&mut self) {
         if self.head.is_some() {
             let mut current_node = Box::new(self.head);
@@ -156,7 +209,7 @@ fn main() {
     println!("Hello, world!");
 }
 #[test]
-fn test_insert() {
+fn test_insert_beginning() {
     let mut ln = SinglyLinkedList::new();
 
     ln.insert_beginning(1);
@@ -169,7 +222,9 @@ fn test_insert() {
     ln.insert_beginning(6);
     ln.insert_beginning(7);
     ln.insert_beginning(8);
+    ln.insert_end(20);
     ln.traverse();
+    ln.search(1);
     //ln.delete_node(1);
 
     unsafe {
@@ -177,3 +232,42 @@ fn test_insert() {
         println!("head : {:?}", ln.head.unwrap().as_mut().data);
     }
 }
+#[test]
+fn test_insert_end_and_search(){
+    
+    let mut ln = SinglyLinkedList::new();
+    ln.insert_beginning(1);
+    ln.insert_beginning(2);
+    ln.insert_beginning(3);
+    ln.insert_beginning(4);
+    ln.insert_beginning(5);
+    ln.insert_beginning(6);
+    ln.insert_beginning(7);
+    ln.insert_beginning(8);
+    ln.insert_end(20);
+    ln.traverse();
+    ln.search(1);
+    //ln.delete_node(1);
+        assert_eq!(ln.search(20).unwrap(), 8);
+        //println!("head : {:?}", ln.head.unwrap().as_mut().data);
+}
+/* #[test]
+fn test_delete(){
+
+    let mut ln = SinglyLinkedList::new();
+    ln.insert_beginning(1);
+    ln.insert_beginning(2);
+    ln.insert_beginning(3);
+    ln.insert_beginning(4);
+    ln.insert_beginning(5);
+    ln.insert_beginning(6);
+    ln.insert_beginning(7);
+    ln.insert_beginning(8);
+    ln.insert_end(20);
+    ln.traverse();
+    ln.search(1);
+    //ln.delete_node(1);
+    ln.traverse();
+        //assert_eq!(ln.search(20).unwrap(), 8);
+   unsafe{println!("head : {:?}", ln.head.unwrap().as_mut().data);}
+} */
